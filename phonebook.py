@@ -11,30 +11,52 @@ while True:
     
     choice = input("Выбери действие:")
     
-    if choice == "1":
-        name = input("Введите имя: ")
-        phone = int(input("Введите номер телефона: ")) #добавить else чтобы говорило что нужно ввести цифры а не буквы
-        phone_book[name] = phone
-        print("Контакт добавлен!")
-    elif choice == "2":
-        name = input("Введите имя: ")
-        if name in phone_book:
-            print("Номер телефона", phone_book[name])
-        else:
-            print("Контакт не найден")
-    elif choice == "3":
+    if not choice.isdigit():  # Проверка, что введена цифра
+        print("Ошибка: введите номер действия (1-5).")
+        continue
+    
+    choice = int(choice)    # Преобразуем в число
+    
+    if choice == 1:
+        while True: # Бесконечный цикл для проверки str в имени # Цикл для ввода имени
+            name = input("Введите имя: ")
+            if name.isalpha(): # Проверяем, что имя состоит только из str # Проверяем, что имя содержит только буквы
+                break # Если ввод корректный, выходим из цикла
+            else:
+                print("Ошибка: имя должно содержать только буквы. Попробуйте снова.")
+        while True: # Бесконечный цикл для проверки номера телефона
+            phone = input("Введите номер телефона: ")
+            if phone.isdigit(): # Проверяем, что номер состоит только из int
+                phone_book[name] = phone
+                print("Контакт добавлен!")
+                break # Выходим из цикла, если ввод корректный
+            else:
+                print("Ошибка: номер телефона должен содержать только цифры. Попробуйте снова.")
+    elif choice == 2:     #когда ввожу цыфры пишет что нужно вводить буквы, и запускает цыкл, когда ввожу имя которого нету, пишет что такого контакта не существует, попробуйте ещё раз, в цыкле 
+        while True:
+            name = input("Введите имя: ")
+            if name in phone_book:
+                print("Номер телефона", phone_book[name])
+            else:
+                print("Контакт не найден")
+    elif choice == 3:
         name = input("Введите имя контакта для удаления: ")
-        if name in phone_book:
+        if name in phone_book:  # Удаление контакта из словаря
             print(f"Контакт {name} удалён. ")
         else:
             print("Контакт не найден.")
-    elif choice == "4":
-        if phone_book:
+    elif choice == 4:
+        if phone_book: # Если словарь не пустой
             print("\nСписок контактов:")
-        for name, phone in phone_book.items():
-            print(f"{name}:{phone}")
-    elif choice == "5":
+            for name, phone in phone_book.items():
+                print(f"{name}: +{phone}")
+        else: # Если словарь пустой
+            print("Список контактов пуст.")
+    elif choice == 5:
         print("Выход")
         break
     else:
         print("Неверный выбор. Попробуйте снова.")
+        
+        
+        
